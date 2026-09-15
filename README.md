@@ -143,8 +143,8 @@ the instructor only; it is never shown to other students.
 - **You may submit as many times as you like** before the deadline. Every
   attempt is kept; your **best (lowest)** score is the one that ranks (the
   *Tries* column counts attempts).
-- The board closes at the deadline shown in the header. Late uploads are
-  refused.
+- The board closes at the deadline shown in the header (**18 Oct 2026,
+  23:59 Taipei**). Late uploads are refused.
 - **Overall / Random / Structured** switch the ranking key; Overall is the
   official one.
 - Uploads that were not produced by `grade.py --json`, that come from the dev

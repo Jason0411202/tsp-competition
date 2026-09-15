@@ -37,6 +37,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include <vector>
 
 using std::vector;
@@ -76,32 +77,50 @@ static inline int64_t dist(int32_t i, int32_t j) {
 // Returns parent[] with parent[root] == -1.
 //
 // The vertices not yet in the tree are kept in compact arrays (coordinates,
-// best key, id) and swap-removed as they join. The inner loop then has no
-// branch and no indirection, so the compiler vectorises it: about 8 s for
-// 100,000 cities, versus 17 s for the textbook version with a done[] flag.
+// key, id) and swap-removed as they join, so the inner loop has no branch and
+// no indirection and the compiler vectorises it. Single-precision floats hold
+// the squared distances: coordinates are below 2^24 so they are exact, and a
+// rounding error in the 7th digit of a squared distance only changes which of
+// two nearly equal edges the tree picks. About 3 s for 100,000 cities and
+// 12 s for 200,000; the textbook version with a done[] flag takes 17 s and
+// 70 s.
 static vector<int32_t> prim_mst(int32_t root) {
     vector<int32_t> parent(N, -1);
     int32_t m = N - 1;                      // vertices outside the tree
-    vector<double> rx(m), ry(m), rkey(m, 1e300);
-    vector<int32_t> rid(m), rpar(m, root);
+    vector<float> rx(m), ry(m);
+    vector<int32_t> rid(m);
+    // Key and parent packed into one 64-bit word: the squared distance's float
+    // bit pattern in the high half (positive floats order like unsigned ints),
+    // the parent in the low half. One unsigned min then updates both, which
+    // is what lets the compiler vectorise the relaxation loop.
+    vector<uint64_t> rkey(m, UINT64_MAX);
     for (int32_t v = 0, k = 0; v < N; ++v) {
         if (v == root) continue;
-        rx[k] = double(X[v]); ry[k] = double(Y[v]); rid[k] = v; ++k;
+        rx[k] = float(X[v]); ry[k] = float(Y[v]); rid[k] = v; ++k;
     }
+    float* __restrict px = rx.data();
+    float* __restrict py = ry.data();
+    uint64_t* __restrict pk = rkey.data();
     int32_t u = root;
     while (m > 0) {
-        const double ux = double(X[u]), uy = double(Y[u]);
+        const float ux = float(X[u]), uy = float(Y[u]);
+        const uint64_t ulow = (uint32_t)u;
         for (int32_t i = 0; i < m; ++i) {           // relax against u
-            const double dx = ux - rx[i], dy = uy - ry[i];
-            const double d2 = dx * dx + dy * dy;
-            if (d2 < rkey[i]) { rkey[i] = d2; rpar[i] = u; }
+            const float dx = ux - px[i], dy = uy - py[i];
+            const float d2 = dx * dx + dy * dy;
+            uint32_t bits;
+            std::memcpy(&bits, &d2, sizeof bits);
+            const uint64_t cand = ((uint64_t)bits << 32) | ulow;
+            pk[i] = cand < pk[i] ? cand : pk[i];
         }
-        int32_t bi = 0;                              // closest to the tree
-        for (int32_t i = 1; i < m; ++i) if (rkey[i] < rkey[bi]) bi = i;
+        uint64_t best = UINT64_MAX;                  // closest to the tree
+        for (int32_t i = 0; i < m; ++i) best = pk[i] < best ? pk[i] : best;
+        int32_t bi = 0;
+        while (pk[bi] != best) ++bi;
         u = rid[bi];
-        parent[u] = rpar[bi];
+        parent[u] = (int32_t)(uint32_t)best;
         --m;                                         // swap-remove bi
-        rx[bi] = rx[m]; ry[bi] = ry[m]; rkey[bi] = rkey[m]; rid[bi] = rid[m]; rpar[bi] = rpar[m];
+        px[bi] = px[m]; py[bi] = py[m]; pk[bi] = pk[m]; rid[bi] = rid[m];
     }
     return parent;
 }

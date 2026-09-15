@@ -53,7 +53,7 @@ def run(cmd, **kw):
     return r
 
 
-def build_one(spec, manifest, out_dir, ref_seconds, bound_iters, reuse_ref=False):
+def build_one(spec, manifest, out_dir, ref_seconds, bound_iters, reuse_ref=False, bound_rounds=12):
     name = spec["name"]
     tsp = out_dir / f"{name}.tsp"
     meta_path = out_dir / f"{name}.meta.json"
@@ -86,7 +86,7 @@ def build_one(spec, manifest, out_dir, ref_seconds, bound_iters, reuse_ref=False
 
     # 3. lower bound
     log("bound ...")
-    r = run([BOUND, tsp, "--ub", ref_len, "--iters", bound_iters, "--json"])
+    r = run([BOUND, tsp, "--ub", ref_len, "--iters", bound_iters, "--rounds", bound_rounds, "--json"])
     b = json.loads(r.stdout.strip().splitlines()[-1])
     lb = int(b["lower_bound"])
     log(f"lower_bound {lb}  (HK {b['held_karp']:.1f}, ref/LB = {ref_len / lb:.4f})")
@@ -113,6 +113,7 @@ def build_one(spec, manifest, out_dir, ref_seconds, bound_iters, reuse_ref=False
         one_tree_plain=b["one_tree_plain"],
         mst=b["mst"],
         bound_iters=b["iters"],
+        bound_rounds=bound_rounds,
         bound_k=b["k"],
         ref_len=ref_len,
         ref_seconds=secs,
@@ -134,7 +135,7 @@ def cmd_build(args):
     # The bound tool is multi-threaded and refsolve is single-threaded, so a
     # couple of instances in flight keeps the machine busy without thrashing.
     with ThreadPoolExecutor(max_workers=args.jobs) as ex:
-        futs = [ex.submit(build_one, s, args.manifest, args.out, args.ref_seconds, args.bound_iters, args.reuse_ref)
+        futs = [ex.submit(build_one, s, args.manifest, args.out, args.ref_seconds, args.bound_iters, args.reuse_ref, args.bound_rounds)
                 for s in specs]
         results = [f.result() for f in futs]
     print()
@@ -182,6 +183,7 @@ def main():
     b.add_argument("--only", nargs="*")
     b.add_argument("--ref-seconds", type=int, default=600)
     b.add_argument("--bound-iters", type=int, default=6000)
+    b.add_argument("--bound-rounds", type=int, default=12)
     b.add_argument("--reuse-ref", action="store_true", help="keep an existing reference tour instead of re-running refsolve")
     b.add_argument("--jobs", type=int, default=2)
     c = sub.add_parser("check")

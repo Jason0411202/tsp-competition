@@ -8,7 +8,7 @@ tours **shorter**. Same input, a valid tour out, 60 seconds, one thread.
 This is not a speed contest. Every solver gets the same 60 s per instance.
 What is measured is **how close your tour is to the optimum**: the length of
 your tour divided by a proven lower bound on the optimal tour. 1.000 would be
-optimal. The foundation scores about 1.45.
+optimal. The foundation scores about 1.44.
 
 **Your entire job is one C++ file.** Everything else — running, timing,
 checking, scoring — is done by one Python script, `grade.py`. You hand in
@@ -40,16 +40,16 @@ Step 4 prints a table and writes `result.json`. Before you change anything,
 ```
 category   instance         n  limit    wall    tour_len  lower_bound    ratio   excess  note
 ----------------------------------------------------------------------------------------------------
-RANDOM     uni1k         1000     60     0.0    33183622     23207105   1.4299   42.99%  ok
-RANDOM     uni10k       10000     60     0.1   100746939     71139777   1.4162   41.62%  ok
-RANDOM     uni100k     100000     60     9.8   320153923    224358454   1.4270   42.70%  ok
-RANDOM     clu20k       20000     60     0.4    91945014     64586184   1.4236   42.36%  ok
-STRUCTURED lat40k       40000     60     1.6   264759613    188150069   1.4072   40.72%  ok
-STRUCTURED road30k      30000     60     1.0    89791312     56657341   1.5848   58.48%  ok
+RANDOM     uni10k       10000     60     0.0   100746939     71139777   1.4162   41.62%  ok
+RANDOM     uni100k     100000     60     2.9   320153923    224358454   1.4270   42.70%  ok
+RANDOM     uni200k     200000     60    11.4   452558491    317226034   1.4266   42.66%  ok
+RANDOM     clu20k       20000     60     0.1    91945014     64586184   1.4236   42.36%  ok
+STRUCTURED lat40k       40000     60     0.5   264759613    188150069   1.4072   40.72%  ok
+STRUCTURED road100k    100000     60     2.9   239839209    158289029   1.5152   51.52%  ok
 
-Random     geomean ratio = 1.4242  (n=4)
-Structured geomean ratio = 1.4934  (n=2)
-Overall    geomean ratio = 1.4469  (n=6)   <- your score; lower is better, 1.0000 is optimal
+Random     geomean ratio = 1.4233  (n=4)
+Structured geomean ratio = 1.4602  (n=2)
+Overall    geomean ratio = 1.4355  (n=6)   <- your score; lower is better, 1.0000 is optimal
 ```
 
 As you improve `solver.cpp` the `ratio` column falls towards 1. For
@@ -61,20 +61,20 @@ that last kind that runs out of time on one instance:
 ```
 category   instance         n  limit    wall    tour_len  lower_bound    ratio   excess  note
 ----------------------------------------------------------------------------------------------------
-RANDOM     uni1k         1000     60    59.9    23594664     23207105   1.0167    1.67%  ok
-RANDOM     uni10k       10000     60    59.9    73010753     71139777   1.0263    2.63%  ok
-RANDOM     uni100k     100000     60    59.9   234073175    224358454   1.0433    4.33%  ok
-RANDOM     clu20k       20000     60    59.9    67046918     64586184   1.0381    3.81%  ok
-STRUCTURED lat40k       40000     60    61.0           -    188150069   2.0000        -  TIMEOUT
-STRUCTURED road30k      30000     60    59.9    58917969     56657341   1.0399    3.99%  ok
+RANDOM     uni10k     10000     60    59.0    73010753     71139777   1.0263    2.63%  ok
+RANDOM     uni100k   100000     60    59.0   234073175    224358454   1.0433    4.33%  ok
+RANDOM     uni200k   200000     60    59.0   333468007    317226034   1.0512    5.12%  ok
+RANDOM     clu20k     20000     60    59.0    67046918     64586184   1.0381    3.81%  ok
+STRUCTURED lat40k     40000     60    62.0           -    188150069   2.0000        -  TIMEOUT
+STRUCTURED road100k  100000     60    59.0   169353432    158289029   1.0699    6.99%  ok
 
-Overall    geomean ratio = 1.1531  (n=6)   <- your score; lower is better, 1.0000 is optimal
+Overall    geomean ratio = 1.1650  (n=6)   <- your score; lower is better, 1.0000 is optimal
 ```
 
 `note=ok` means a valid tour was written in time. Anything else means that
 instance scored **2.0** — the worst the 2-approximation can ever do — and the
 `TIMEOUT` line above cost this solver most of its score (without it the mean
-would be about 1.033). A valid tour first, then a short one. Manage your
+would be about 1.046). A valid tour first, then a short one. Manage your
 clock: the limit is `argv[3]`, the grader kills you two seconds after it
 whatever you were about to write, and its clock starts before yours (process
 start-up counts). **Stop improving at least one second early** and write the
@@ -170,15 +170,15 @@ ratios. **Lower is better**; 1.0000 is the unreachable floor.
 - **A failed instance scores 2.0 and still counts.** An invalid tour, a
   timeout, too much memory, or extra threads on one instance drags your mean
   up; they are never dropped. Running the unmodified foundation on an
-  instance (≈1.45) is always better than failing it.
+  instance (≈1.44) is always better than failing it.
 - Four instances are **RANDOM** (uniform and clustered points), two are
   **STRUCTURED** (a lattice and road-like polylines). `grade.py` reports the
   two sub-means, but the overall geometric mean is your score.
 - **The bound is not the optimum.** On random points it is typically 0.5–1%
   below it, so a ratio of 1.02 means "at most 2% above optimal, probably about
-  1.3% above". On `road30k` the gap is larger and unknown: the best tour anyone
-  has found is 6% above the bound. Nobody will reach 1.000; the interesting
-  range is 1.01–1.06, so the board shows four decimals.
+  1.3% above". On `road100k` the gap is larger and unknown: the best tour
+  anyone has found is 3.4% above the bound. Nobody will reach 1.000; the
+  interesting range is 1.01–1.05, so the board shows four decimals.
 - **Machine speed matters a little.** A faster laptop gets more iterations in
   the same 60 s. The effect is small next to the algorithmic differences, and
   the instructor re-runs the top submissions on one machine before final
@@ -202,12 +202,12 @@ that helps on one may not help on another:
 
 | instance | cities | family | what it is | lower bound | reference | foundation |
 |---|---:|---|---|---:|---:|---:|
-| `uni1k` | 1,000 | RANDOM | uniform random points; small enough to get very close to optimal | 23,207,105 | 1.0088 | 1.4299 |
 | `uni10k` | 10,000 | RANDOM | uniform random points | 71,139,777 | 1.0123 | 1.4162 |
 | `uni100k` | 100,000 | RANDOM | uniform random points; anything quadratic per pass is too slow | 224,358,454 | 1.0134 | 1.4270 |
+| `uni200k` | 200,000 | RANDOM | uniform random points; nothing converges in 60 s, so speed shows | 317,226,034 | 1.0149 | 1.4266 |
 | `clu20k` | 20,000 | RANDOM | Gaussian clusters whose density varies 1000×, plus a thin background | 64,586,184 | 1.0120 | 1.4236 |
 | `lat40k` | 40,000 | STRUCTURED | a jittered 200×200 lattice: plateaus of equal-length moves everywhere | 188,150,069 | 1.0026 | 1.4072 |
-| `road30k` | 30,000 | STRUCTURED | points along random streets with junction knots | 56,657,341 | 1.0604 | 1.5848 |
+| `road100k` | 100,000 | STRUCTURED | points along random streets with junction knots | 158,289,029 | 1.0344 | 1.5152 |
 
 *reference* is the ratio reached by the instructor's own local-search solver
 given five minutes; *foundation* is the unmodified starting point. Beating
@@ -217,7 +217,7 @@ earns a badge on the board.
 Each instance is two files in `instances/`: `<name>.tsp` (the points) and
 `<name>.meta.json` (the bound and the reference, plus how the points were
 made). All coordinates are integers in `[0, 1,000,000]`. The whole scored set
-is 3 MB and committed to the repo; there is nothing to download.
+is 7 MB and committed to the repo; there is nothing to download.
 
 The `dev_*` instances are the same six families at 200–10,000 cities.
 

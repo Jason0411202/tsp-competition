@@ -65,12 +65,12 @@
   <line x1="860" y1="106" x2="1340" y2="106" stroke="#CBD5E1"/>
   <text x="860" y="130" class="m tt">uni1k      23.6M      23.2M      <tspan class="good">1.0167</tspan>   +1.67%   ok</text>
   <text x="860" y="154" class="m tt">uni10k     73.0M      71.1M      <tspan class="good">1.0263</tspan>   +2.63%   ok</text>
-  <text x="860" y="178" class="m tt">uni100k   236.1M     226.3M      <tspan class="good">1.0433</tspan>   +4.33%   ok</text>
-  <text x="860" y="202" class="m tt">clu20k     58.0M      55.9M      <tspan class="good">1.0381</tspan>   +3.81%   ok</text>
-  <text x="860" y="226" class="m tt">lat40k        -          -       <tspan class="bad">2.0000</tspan>       -    TIMEOUT</text>
-  <text x="860" y="250" class="m tt">road30k    99.1M      95.3M      <tspan class="good">1.0399</tspan>   +3.99%   ok</text>
+  <text x="860" y="178" class="m tt">uni100k   234.1M     224.4M      <tspan class="good">1.0433</tspan>   +4.33%   ok</text>
+  <text x="860" y="202" class="m tt">clu20k     67.0M      64.6M      <tspan class="good">1.0381</tspan>   +3.81%   ok</text>
+  <text x="860" y="226" class="m tt">lat40k        -      188.2M      <tspan class="bad">2.0000</tspan>       -    TIMEOUT</text>
+  <text x="860" y="250" class="m tt">road30k    58.9M      56.7M      <tspan class="good">1.0399</tspan>   +3.99%   ok</text>
   <line x1="860" y1="266" x2="1340" y2="266" stroke="#CBD5E1"/>
-  <text x="860" y="294" class="m tt">Overall  geomean ratio = <tspan class="acc" style="font-size:16px">1.1494</tspan>   &lt;- your score</text>
+  <text x="860" y="294" class="m tt">Overall  geomean ratio = <tspan class="acc" style="font-size:16px">1.1531</tspan>   &lt;- your score</text>
   <text x="860" y="318" class="s sm">lower is better · 1.0000 = provably optimal everywhere</text>
   <text x="860" y="336" class="s sm">a failed instance counts as 2.0 (here: TIMEOUT on lat40k)</text>
 
@@ -82,6 +82,6 @@
 
   <!-- bottom note -->
   <text x="40" y="560" class="s h" style="fill:#14324D">The only thing you control is solver.cpp. The only number that matters is the ratio.</text>
-  <text x="40" y="588" class="s b">The foundation scores about 1.42 (its tours are 42% longer than the bound). 2-opt gets you to ~1.05, Or-opt to ~1.04,</text>
-  <text x="40" y="610" class="s b">a Lin–Kernighan-style search to ~1.02. The bound itself is ~0.7% below the true optimum, so 1.007 is as good as it gets.</text>
+  <text x="40" y="588" class="s b">The foundation scores about 1.45 (its tours are 45% longer than the bound). 2-opt gets you to ~1.17, adding Or-opt ~1.10,</text>
+  <text x="40" y="610" class="s b">iterated local search ~1.02, a Lin–Kernighan-style search lower still. The bound is ~0.7% below the optimum, so ~1.007 is the end.</text>
 </svg>

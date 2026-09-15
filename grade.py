@@ -64,7 +64,7 @@ ALL_CATEGORIES = RANDOM_CATEGORIES | STRUCTURED_CATEGORIES
 
 FAIL_RATIO = 2.0                      # a failed instance scores this
 MEM_CAP_BYTES = 4 << 30               # the 4 GB rule
-TIME_GRACE_S = 1.0                    # process start-up slop past the limit
+TIME_GRACE_S = 2.0                    # process start-up slop past the limit
 CPU_WALL_RATIO = 1.4                  # single-thread rule: cpu <= 1.4 * wall
 
 SOLVER_SRC = "solver.cpp"

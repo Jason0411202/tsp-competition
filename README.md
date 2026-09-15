@@ -52,9 +52,11 @@ Structured geomean ratio = 1.4934  (n=2)
 Overall    geomean ratio = 1.4469  (n=6)   <- your score; lower is better, 1.0000 is optimal
 ```
 
-As you improve `solver.cpp` the `ratio` column falls towards 1. An
-illustrative result for a solver with 2-opt and Or-opt on neighbour lists that
-runs out of time on one instance:
+As you improve `solver.cpp` the `ratio` column falls towards 1. For
+orientation, measured on this machine: 2-opt on neighbour lists alone reaches
+about 1.17 overall, adding Or-opt about 1.10, and adding perturbation
+(iterated local search) about 1.02. An illustrative result for a solver of
+that last kind that runs out of time on one instance:
 
 ```
 category   instance         n  limit    wall    tour_len  lower_bound    ratio   excess  note
@@ -73,8 +75,10 @@ Overall    geomean ratio = 1.1531  (n=6)   <- your score; lower is better, 1.000
 instance scored **2.0** — the worst the 2-approximation can ever do — and the
 `TIMEOUT` line above cost this solver most of its score (without it the mean
 would be about 1.033). A valid tour first, then a short one. Manage your
-clock: the limit is `argv[3]`, and the grader kills you at 61 s whatever you
-were about to write.
+clock: the limit is `argv[3]`, the grader kills you two seconds after it
+whatever you were about to write, and its clock starts before yours (process
+start-up counts). **Stop improving at least one second early** and write the
+tour; on a busy laptop a solver that runs to the last millisecond gets killed.
 
 That is the whole workflow. Repeat step 4 as you improve `solver.cpp`, and
 upload the two files whenever you want to see where you stand.
@@ -100,7 +104,7 @@ Your `solver.cpp` must:
    the command line: `./solver <instance.tsp> <output.tour> <time_limit_s>`.
 2. Write a **valid tour**: exactly N lines, a permutation of `0..N-1`.
 3. Finish within the time limit given as `argv[3]` (60 s on the scored set).
-   The grader kills the process one second after the limit; a run that is
+   The grader kills the process two seconds after the limit; a run that is
    killed scores 2.0 even if a good tour was about to be written.
 4. Be C++17 using only the standard library.
 5. Be a single file: everything you write lives in `solver.cpp`, with no
@@ -186,7 +190,7 @@ ratios. **Lower is better**; 1.0000 is the unreachable floor.
 |---|---|---|
 | `ok` | valid tour, within limits | `tour_length / lower_bound` |
 | `INVALID` | not a permutation of 0..N-1 (`invalid_reason` in result.json says why) | 2.0 |
-| `TIMEOUT` | still running one second after the limit | 2.0 |
+| `TIMEOUT` | still running two seconds after the limit | 2.0 |
 | `MEMORY` | exceeded 4 GB | 2.0 |
 | `THREADS` | used more than one thread | 2.0 |
 | `CRASH` / `NOOUTPUT` | non-zero exit, or no output file written | 2.0 |

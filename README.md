@@ -26,6 +26,7 @@ the `Overall geomean ratio` line is your score. **Lower is better.**
 ## Quick start
 
 ```sh
+git clone https://github.com/ythuang0522/tsp-competition.git && cd tsp-competition
 make foundation                        # 1. build the baseline
 cp tsp_foundation.cpp solver.cpp       # 2. this file is your assignment
 make solver                            #    ...edit solver.cpp, rebuild...

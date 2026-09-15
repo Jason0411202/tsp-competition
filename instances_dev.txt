@@ -1,0 +1,8 @@
+# The practice set: same six families, smaller, 10 s each. Not scored.
+# <category> <instance.tsp> <time_limit_seconds>
+RANDOM      instances/dev_uni200.tsp   10
+RANDOM      instances/dev_uni2k.tsp    10
+RANDOM      instances/dev_uni10k.tsp   10
+RANDOM      instances/dev_clu3k.tsp    10
+STRUCTURED  instances/dev_lat4k.tsp    10
+STRUCTURED  instances/dev_road3k.tsp   10

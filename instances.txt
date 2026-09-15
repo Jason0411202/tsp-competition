@@ -1,0 +1,8 @@
+# The scored set: six instances, 60 s of wall clock each, one thread.
+# <category> <instance.tsp> <time_limit_seconds>
+RANDOM      instances/uni1k.tsp     60
+RANDOM      instances/uni10k.tsp    60
+RANDOM      instances/uni100k.tsp   60
+RANDOM      instances/clu20k.tsp    60
+STRUCTURED  instances/lat40k.tsp    60
+STRUCTURED  instances/road30k.tsp   60

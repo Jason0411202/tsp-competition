@@ -1,0 +1,41 @@
+# --- Build artifacts ---
+foundation
+solver
+tools/bound/bound
+tools/ref/solvers/refsolve
+*.o
+*.a
+*.dSYM/
+
+# --- Instructor-only material (NEVER commit to the student repo) ---
+# The generator and the bound tool ARE shipped -- students need them to make
+# practice instances.  What stays behind: the hidden seed and its instances,
+# the reference solver (a complete implementation of exactly the techniques
+# the assignment asks students to find), the reference tours, and the design
+# notes.
+docs/
+tools/manifest/hidden.json
+instances_hidden/
+tools/ref/solvers/
+tools/ref/tours/
+# The scoreboard Worker. src/validate.js IS the list of integrity checks;
+# shipping it would hand students the exact checks to defeat.
+scoreboard/
+
+# --- Per-student / local work ---
+solver.cpp
+result.json
+tours/
+*.tour
+!samples/*.tour
+
+# --- Tooling ---
+.claude/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+
+# --- OS junk ---
+.DS_Store
+Thumbs.db

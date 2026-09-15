@@ -1,0 +1,31 @@
+{
+  "seed": 20260915,
+  "salt": "public-v1",
+  "instances": [
+    { "name": "uni1k",   "family": "uniform",   "n": 1000,   "category": "RANDOM",     "time_limit_s": 60,
+      "description": "1,000 uniform random points. Small enough that the optimum is within reach." },
+    { "name": "uni10k",  "family": "uniform",   "n": 10000,  "category": "RANDOM",     "time_limit_s": 60,
+      "description": "10,000 uniform random points." },
+    { "name": "uni100k", "family": "uniform",   "n": 100000, "category": "RANDOM",     "time_limit_s": 60,
+      "description": "100,000 uniform random points. Anything quadratic per pass is too slow." },
+    { "name": "clu20k",  "family": "clustered", "n": 20000,  "category": "RANDOM",     "time_limit_s": 60,
+      "description": "20,000 points in Gaussian clusters whose density varies by 1000x, plus a thin background." },
+    { "name": "lat40k",  "family": "lattice",   "n": 40000,  "category": "STRUCTURED", "time_limit_s": 60,
+      "description": "40,000 points on a jittered 200x200 lattice: plateaus everywhere, optimum nearly known." },
+    { "name": "road30k", "family": "roads",     "n": 30000,  "category": "STRUCTURED", "time_limit_s": 60,
+      "description": "30,000 points along random streets with junction knots." },
+
+    { "name": "dev_uni200",  "family": "uniform",   "n": 200,   "category": "RANDOM",     "time_limit_s": 10,
+      "description": "dev tier" },
+    { "name": "dev_uni2k",   "family": "uniform",   "n": 2000,  "category": "RANDOM",     "time_limit_s": 10,
+      "description": "dev tier" },
+    { "name": "dev_uni10k",  "family": "uniform",   "n": 10000, "category": "RANDOM",     "time_limit_s": 10,
+      "description": "dev tier" },
+    { "name": "dev_clu3k",   "family": "clustered", "n": 3000,  "category": "RANDOM",     "time_limit_s": 10,
+      "description": "dev tier" },
+    { "name": "dev_lat4k",   "family": "lattice",   "n": 4000,  "category": "STRUCTURED", "time_limit_s": 10,
+      "description": "dev tier" },
+    { "name": "dev_road3k",  "family": "roads",     "n": 3000,  "category": "STRUCTURED", "time_limit_s": 10,
+      "description": "dev tier" }
+  ]
+}

@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 640" width="1400" height="640" role="img" aria-labelledby="t d">
+  <title id="t">How the competition works: your solver.cpp and the six instances go into grade.py; a score table and result.json come out</title>
+  <desc id="d">You write solver.cpp. grade.py runs it for 60 seconds on each of six instances, checks the tour is valid, divides its length by the instance's proven lower bound, and prints the geometric mean, which is your score (lower is better). It also writes result.json, which you upload with solver.cpp.</desc>
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,1 L9,5 L0,9 z" fill="#14324D"/>
+    </marker>
+  </defs>
+  <style>
+    .s  { font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif; }
+    .m  { font-family:"SF Mono",Menlo,Consolas,"DejaVu Sans Mono",monospace; }
+    .h  { font-size:17px; font-weight:700; fill:#14324D; }
+    .b  { font-size:14px; fill:#1B1B1B; }
+    .sm { font-size:12.5px; fill:#6B6B6B; }
+    .lbl{ font-size:12px; font-weight:700; fill:#0E7490; letter-spacing:0.5px; }
+    .tt { font-size:13px; fill:#1B1B1B; }
+    .th { font-size:12px; font-weight:700; fill:#6B6B6B; }
+    .acc{ fill:#C2410C; font-weight:700; }
+    .good{ fill:#15803D; font-weight:700; }
+    .bad{ fill:#B3261E; font-weight:700; }
+  </style>
+  <rect width="1400" height="640" fill="#ffffff"/>
+
+  <!-- left: inputs -->
+  <text x="40" y="52" class="s lbl">YOU WRITE</text>
+  <rect x="40" y="66" width="300" height="118" rx="12" fill="#FFF4EC" stroke="#C2410C" stroke-width="2"/>
+  <text x="60" y="98" class="m h" style="fill:#C2410C">solver.cpp</text>
+  <text x="60" y="124" class="s b">one C++17 file, one thread</text>
+  <text x="60" y="146" class="s b">starts as tsp_foundation.cpp</text>
+  <text x="60" y="168" class="s sm">./solver &lt;instance.tsp&gt; &lt;out.tour&gt; 60</text>
+
+  <text x="40" y="240" class="s lbl">WE PROVIDE</text>
+  <rect x="40" y="254" width="300" height="230" rx="12" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="60" y="284" class="s h">6 instances</text>
+  <text x="60" y="310" class="m tt">uni1k     1,000 cities</text>
+  <text x="60" y="332" class="m tt">uni10k   10,000 cities</text>
+  <text x="60" y="354" class="m tt">uni100k 100,000 cities</text>
+  <text x="60" y="376" class="m tt">clu20k   20,000 clustered</text>
+  <text x="60" y="398" class="m tt">lat40k   40,000 lattice</text>
+  <text x="60" y="420" class="m tt">road30k  30,000 roads</text>
+  <text x="60" y="452" class="s sm">each with a PROVEN lower bound</text>
+  <text x="60" y="470" class="s sm">on its optimal tour length</text>
+
+  <!-- arrows into grade.py -->
+  <path d="M340 125 C 400 125, 400 300, 460 300" fill="none" stroke="#14324D" stroke-width="2.5" marker-end="url(#ar)"/>
+  <path d="M340 369 C 400 369, 400 330, 460 330" fill="none" stroke="#14324D" stroke-width="2.5" marker-end="url(#ar)"/>
+
+  <!-- middle: grade.py -->
+  <rect x="470" y="200" width="300" height="240" rx="14" fill="#E0F2FE" stroke="#0E7490" stroke-width="2.5"/>
+  <text x="620" y="240" text-anchor="middle" class="m h" style="fill:#0E7490;font-size:20px">grade.py</text>
+  <text x="490" y="276" class="s b">for each instance:</text>
+  <text x="500" y="300" class="s b">1. run your solver for <tspan class="acc">60 s</tspan></text>
+  <text x="500" y="324" class="s b">2. check the tour is valid</text>
+  <text x="500" y="348" class="s b">3. length ÷ lower bound</text>
+  <text x="490" y="384" class="s b">then: geometric mean of the six</text>
+  <text x="490" y="412" class="s sm">also enforces 4 GB, one thread, N lines</text>
+
+  <!-- arrow out -->
+  <path d="M770 320 L 830 320" fill="none" stroke="#14324D" stroke-width="2.5" marker-end="url(#ar)"/>
+
+  <!-- right: output table -->
+  <text x="840" y="52" class="s lbl">YOU GET</text>
+  <rect x="840" y="66" width="520" height="418" rx="12" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="860" y="96" class="m th">instance   tour_len   lower_bound   ratio   excess   note</text>
+  <line x1="860" y1="106" x2="1340" y2="106" stroke="#CBD5E1"/>
+  <text x="860" y="130" class="m tt">uni1k      23.6M      23.2M      <tspan class="good">1.0167</tspan>   +1.67%   ok</text>
+  <text x="860" y="154" class="m tt">uni10k     73.0M      71.1M      <tspan class="good">1.0263</tspan>   +2.63%   ok</text>
+  <text x="860" y="178" class="m tt">uni100k   236.1M     226.3M      <tspan class="good">1.0433</tspan>   +4.33%   ok</text>
+  <text x="860" y="202" class="m tt">clu20k     58.0M      55.9M      <tspan class="good">1.0381</tspan>   +3.81%   ok</text>
+  <text x="860" y="226" class="m tt">lat40k        -          -       <tspan class="bad">2.0000</tspan>       -    TIMEOUT</text>
+  <text x="860" y="250" class="m tt">road30k    99.1M      95.3M      <tspan class="good">1.0399</tspan>   +3.99%   ok</text>
+  <line x1="860" y1="266" x2="1340" y2="266" stroke="#CBD5E1"/>
+  <text x="860" y="294" class="m tt">Overall  geomean ratio = <tspan class="acc" style="font-size:16px">1.1494</tspan>   &lt;- your score</text>
+  <text x="860" y="318" class="s sm">lower is better · 1.0000 = provably optimal everywhere</text>
+  <text x="860" y="336" class="s sm">a failed instance counts as 2.0 (here: TIMEOUT on lat40k)</text>
+
+  <rect x="860" y="360" width="480" height="104" rx="10" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.5"/>
+  <text x="880" y="390" class="m h" style="fill:#14324D">result.json</text>
+  <text x="880" y="414" class="s b">the same table, machine-readable</text>
+  <text x="880" y="436" class="s b">upload it <tspan style="font-weight:700">with solver.cpp</tspan> to the scoreboard</text>
+  <text x="880" y="456" class="s sm">tsp.ccu2026algorithm.workers.dev</text>
+
+  <!-- bottom note -->
+  <text x="40" y="560" class="s h" style="fill:#14324D">The only thing you control is solver.cpp. The only number that matters is the ratio.</text>
+  <text x="40" y="588" class="s b">The foundation scores about 1.42 (its tours are 42% longer than the bound). 2-opt gets you to ~1.05, Or-opt to ~1.04,</text>
+  <text x="40" y="610" class="s b">a Lin–Kernighan-style search to ~1.02. The bound itself is ~0.7% below the true optimum, so 1.007 is as good as it gets.</text>
+</svg>
